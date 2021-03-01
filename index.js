@@ -128,6 +128,17 @@ const TestEmbed = new Discord.MessageEmbed()
 		.setImage("https://cdn.nekos.life/nsfw_neko_gif/hneko14.gif")
 
 
+	function checker(value) {
+		  var prohibited = ['anal', 'anus', 'arse', 'ass', 'ballsack', 'balls', 'bastard', 'bitch', 'biatch', 'bloody', 'blowjob', 'bj', 'bollock', 'bollok', 'boner', 'boob', 'bugger', 'bum', 'butt', 'buttplug', 'clitoris', 'cock', 'coon', 'crap', 'cunt', 'damn', 'dick', 'dildo', 'dyke', 'fag', 'feck', 'fellate', 'fellatio', 'felching', 'fuck', 'flange', 'goddamn', 'god', 'damn', 'hell', 'homo', 'jerk', 'jizz', 'labia', 'muff', 'nigger', 'nigga', 'penis', 'piss', 'poop', 'prick', 'pube', 'pussy', 'queer', 'scrotum', 'sex', 'shit', 'sh1t', 'slut', 'smegma', 'spunk', 'tit', 'tosser', 'turd', 'twat', 'vagina', 'wank', 'whore', 'wtf'];
+
+		  for (var i = 0; i < prohibited.length; i++) {
+		    if (value.indexOf(prohibited[i]) > -1) {
+		      return false;
+		    }
+		  }
+		  return true;
+		}
+
 client.on("message",async message=>{
 
 	  if(message.author.bot) return;
@@ -162,9 +173,16 @@ client.on("message",async message=>{
 
 	    const sayMessage = args.join(" ");
 
+			if(checker(sayMessage)==true){
+
+
 	    message.delete().catch(O_o=>{});
 
 	    message.channel.send(sayMessage);
+			}
+			else{
+				message.channel.send("Language. D:");
+			}
 	  }
 
 		//command.content.includes('purge')
