@@ -140,7 +140,12 @@ client.on("message",async message=>{
 			message.channel.send(TestEmbed);
 		}
 
-
+		if(command === "ping") {
+			// Calculates ping between sending a message and editing it, giving a nice round-trip latency.
+			// The second ping is an average latency between the bot and the websocket server (one-way, not round-trip)
+			const m = await message.channel.send("Ping?");
+			m.edit(`Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms.`);// API Latency is ${Math.round(client.ping)}ms`);
+		}
 		if(command==="debug2"){
 			var Temp=message.content.split(" ");
 			message.channel.send(nekEndPts.sfw[Temp[1]])
@@ -157,7 +162,7 @@ client.on("message",async message=>{
 
 	    const sayMessage = args.join(" ");
 
-	    //message.delete().catch(O_o=>{});
+	    message.delete().catch(O_o=>{});
 
 	    message.channel.send(sayMessage);
 	  }
@@ -410,11 +415,6 @@ client.on("message",async message=>{
 						SFNeko.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
 						.then(collected => {
 							const reaction = collected.first();
-							if(!message.channel.nsfw){
-								message.channel.send("This ability requires the channel to be marked as NSFW.").then(msg => {
-								msg.delete({ timeout: 5000 })
-								})
-								return; }
 
 							if (reaction.emoji.name === '🗑️') {
 								SFNeko.delete().catch(O_o=>{});
@@ -446,11 +446,6 @@ client.on("message",async message=>{
 												SFNeko.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
 												.then(collected => {
 													const reaction = collected.first();
-													if(!message.channel.nsfw){
-														message.channel.send("This ability requires the channel to be marked as NSFW.").then(msg => {
-														msg.delete({ timeout: 5000 })
-														})
-														return; }
 
 													if (reaction.emoji.name === '🗑️') {
 														SFNeko.delete().catch(O_o=>{});
@@ -485,11 +480,6 @@ client.on("message",async message=>{
 											SFNeko.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
 											.then(collected => {
 												const reaction = collected.first();
-												if(!message.channel.nsfw){
-													message.channel.send("This ability requires the channel to be marked as NSFW.").then(msg => {
-													msg.delete({ timeout: 5000 })
-													})
-													return; }
 
 												if (reaction.emoji.name === '🗑️') {
 													SFNeko.delete().catch(O_o=>{});
@@ -519,11 +509,6 @@ client.on("message",async message=>{
 									SFNeko.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
 									.then(collected => {
 										const reaction = collected.first();
-										if(!message.channel.nsfw){
-											message.channel.send("This ability requires the channel to be marked as NSFW.").then(msg => {
-											msg.delete({ timeout: 5000 })
-											})
-											return; }
 
 										if (reaction.emoji.name === '🗑️') {
 											SFNeko.delete().catch(O_o=>{});
@@ -646,8 +631,9 @@ client.on("message",async message=>{
 		}
 
 
-		if(command === "del"){  //purge
+		if(command === "purgepurgepurgepurgepurge"){  //purge
 			//message.channel.send(message.author);
+			if(message.member.hasPermission('ADMINISTRATOR') || message.member.hasPermission('MANAGE_MESSAGES')){
 			var MessagesToPurgeSplit=message.content.split(" ");
 			//message.channel.send(message.content.split(" "));
 			if(MessagesToPurgeSplit.length > 1){
@@ -720,18 +706,13 @@ client.on("message",async message=>{
 		}
 
 		}
-		if(command === "ping") {
-			// Calculates ping between sending a message and editing it, giving a nice round-trip latency.
-			// The second ping is an average latency between the bot and the websocket server (one-way, not round-trip)
-			const m = await message.channel.send("Ping?");
-			m.edit(`Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms.`);// API Latency is ${Math.round(client.ping)}ms`);
-		}
+
 	//  if(command == "setup-role") {
 	//    let myRole = message.guild.roles.find(role => role.name === "Bot Mod");
 	//  }
 
 
-	});
+}});
 
 
 
@@ -758,7 +739,6 @@ function sendMessage(){
         //guild.channels.cache.get('738845774837710868').send("It's Fonky Monkey Friday!!!")
         //.then(guild.channels.cache.get('738845774837710868').send(new Discord.MessageAttachment('./fonky_monky_friday.mp4', 'fonky_monky_friday.mp4')).catch(console.error));
     }
-
 
 
 client.login('NOPE,IM NOT GIVING YOU MY KEY')
